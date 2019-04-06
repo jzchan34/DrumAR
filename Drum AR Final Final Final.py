@@ -69,11 +69,11 @@ def getDrum(i):
 def drawContour(frame, thresh):
     contours, _ = cv2.findContours(thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     for c in contours:
-        rect = cv2.boundingRect(c)
-        if rect[2] < 100 or rect[3] < 100: continue
-        x,y,w,h = rect
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(150,150,0),2)
-        cv2.putText(frame,'Moth Detected',(x+w,y+h),0,0.3,(0,255,0))
+        (x,y),radius = cv2.minEnclosingCircle(c)
+        center = (int(x),int(y))
+        radius = int(radius)
+        cv2.circle(frame,center,radius,(150,150,0),2)
+        #cv2.putText(frame,'Moth Detected',center,0,0.3,(0,255,0))
     
 def main():
     hRange = (550, 650)
