@@ -20,6 +20,8 @@ while(True):
     ch = cv2.waitKey(1)
     if ch & 0xFF == ord('q'):
         break
+        
+    #quit this by Phil
 
 cap.release()
 cv2.destroyAllWindows()
