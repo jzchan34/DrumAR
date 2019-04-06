@@ -14,14 +14,14 @@ while(True):
     frame = cv2.resize(frame, (0,0), fx = 2, fy = 2)
     frame = cv2.flip(frame, +1)
     frameHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    colorMask = cv2.inRange(frameHSV, colorLower, colorUpper)
+    res = cv2.bitwise_and(frame, frame, mask = colorMask)
+    cv2.imshow("Hello", res)
     cv2.imshow("Drum AR", frame)
-    
     #if condition is met, break out of loop
     ch = cv2.waitKey(1)
     if ch & 0xFF == ord('q'):
         break
-        
-    #quit this by Phil
 
 cap.release()
 cv2.destroyAllWindows()
