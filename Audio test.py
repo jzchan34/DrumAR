@@ -27,5 +27,37 @@ def play(file):
 
     p.terminate()
 
+def playDrumRecord():
+    while True:
+        drum=input("What drum?-->")
+        if drum=='1':
+            #kick
+            play("Other/kick.wav")
+        elif drum=='2':
+            #floor tom
+            play("Other/tom.wav")
+        elif drum=='3':
+            #snare drum
+            play("Other/snare.wav")
+        elif drum=='4':
+            #hanging toms
+            play("Other/rack tom.wav")
+        elif drum=='5':
+            #hi-hat
+            play("Other/closed hat.wav")
+        elif drum=='6':
+            #crash cymbal
+            play("Other/crash.wav")
+        elif drum=='7':
+            #ride cymbal
+            play("Other/ride.wav")
+        elif drum=='8':
+            #splash cymbal
+            play("Other/splash.wav")
+        elif drum=='9':
+            #china cymbal
+            play("Other/chinese.wav")
+        else:
+            return
 
-play("./musicradar-drum-samples"+os.sep+"CYCdh_K1close_ClHat-01.wav")
+playDrumRecord()
