@@ -29,6 +29,19 @@ def main():
     cap = cv2.VideoCapture(0)
     drums = [0] * drumNum
     
+    def drawDrums(frame):
+        #draw drums
+        color = (0,255,0)
+        lineWidth = 2
+        radius1, radius2, radius3 = 100, 150, 200
+        point1, point2, point3, point4 = (250,350), (460,530), (830,530), (1050,350)
+        cv2.circle(frame,point1,radius1,color,lineWidth)
+        cv2.circle(frame,point2,radius2,color,lineWidth)
+        cv2.circle(frame,point3,radius2,color,lineWidth)
+        cv2.circle(frame,point4,radius1,color,lineWidth)
+        
+    drawDrums(frame)
+    
     while(True):
         for timer in drums:
             if timer > 0:
