@@ -4,12 +4,11 @@ import time
 
 ## Main Video Code
 def main():
-    hRange = (1100, 1300)
-    splitRange = 640
-    drumNum = 4
+    hRange = (380, 650)
+    splitRange = 300
     threshold = (10,10,10)
     def checkDrum(res, k):
-        mrg = 150
+        mrg = 100
         counter = False
         for line in range(hRange[0], hRange[1], 20):
             for character in range(k * splitRange + mrg, (k + 1)*splitRange - mrg, 20):
@@ -27,20 +26,8 @@ def main():
     colorUpper1 = np.array([180, 255, 255], np.uint8)
     
     cap = cv2.VideoCapture(0)
+    drumNum = 4
     drums = [0] * drumNum
-    
-    def drawDrums(frame):
-        #draw drums
-        color = (0,255,0)
-        lineWidth = 2
-        radius1, radius2, radius3 = 100, 150, 200
-        point1, point2, point3, point4 = (250,350), (460,530), (830,530), (1050,350)
-        cv2.circle(frame,point1,radius1,color,lineWidth)
-        cv2.circle(frame,point2,radius2,color,lineWidth)
-        cv2.circle(frame,point3,radius2,color,lineWidth)
-        cv2.circle(frame,point4,radius1,color,lineWidth)
-        
-    drawDrums(frame)
     
     while(True):
         for timer in drums:
@@ -48,6 +35,18 @@ def main():
                 timer -= 1
         ret, frame = cap.read()
         frame = cv2.resize(frame, (0,0), fx = 2, fy = 2)
+            
+        #drum parameters
+        color = (0,255,0)
+        lineWidth = 2
+        radius1, radius2, radius3 = 100, 130, 160
+        point1, point2, point3, point4 = (200,530), (480,560), (740,560), (1060,500)
+        cir1 = (frame,point1,radius2,color,lineWidth)
+        cir2 = (frame,point2,radius1,color,lineWidth)
+        cir3 = (frame,point3,radius1,color,lineWidth)
+        cir4 = (frame,point4,radius3,color,lineWidth)
+        drumParas = [cir4,cir3,cir2,cir1]
+        
         #print(len(frame), len(frame[0])) #1440, 2560
         frame = cv2.flip(frame, +1)
         frameHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -57,13 +56,16 @@ def main():
         res = cv2.bitwise_and(frame, frame, mask = colorMask)
         for i in range(len(drums)):
             timer = drums[i]
-            cv2.rectangle(frame,(i*splitRange,hRange[0]),((i+1)*splitRange,hRange[1]),(0,255,0),3)
+            #retrieve the drum parameters
+            frame,point1,radius2,color,lineWidth = drumParas[i]
+            cv2.circle(frame,point1,radius2,color,3)
+            #here
             if timer == 0:
                 isHit = checkDrum(res, i)
                 if isHit == True:
                     
                     print("Drum", i+1, "hi")
-                    cv2.rectangle(frame,(i*splitRange,hRange[0]),((i+1)*splitRange,hRange[1]),(0,255,0),-1)
+                    cv2.circle(frame,point1,radius2,color,-1)
                     timer = 20
                 else:
                     print("Drum", i+1, "bye")
