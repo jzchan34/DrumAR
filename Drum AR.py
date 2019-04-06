@@ -6,8 +6,8 @@ import time
 
 def checkDrum(res):
     counter = False
-    for line in range(720, 960):
-        for character in (0,640):
+    for line in range(720, 960,20): #check every 20 px
+        for character in (0,640,20):
             for i in range(3):  
                 if res[line][character][i] != 0:
                     counter = True
@@ -52,6 +52,7 @@ while(True):
         hitTimer = 20
     else:
         print("bye")
+    
     cv2.imshow("Hello", res)
     cv2.imshow("Drum AR", frame)
     #if condition is met, break out of loop
