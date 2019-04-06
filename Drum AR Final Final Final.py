@@ -65,7 +65,16 @@ def getDrum(i):
     ##Change based on System Mac or Windows
     drumParas = [cir1,cir2,cir3,cir4,cir5]
     return drumParas[i]
-        
+    
+def drawContour(frame, thresh):
+    contours, _ = cv2.findContours(thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    for c in contours:
+        rect = cv2.boundingRect(c)
+        if rect[2] < 100 or rect[3] < 100: continue
+        x,y,w,h = rect
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(150,150,0),2)
+        cv2.putText(frame,'Moth Detected',(x+w,y+h),0,0.3,(0,255,0))
+    
 def main():
     hRange = (550, 650)
     splitRange = 320
@@ -96,7 +105,7 @@ def main():
             if drums[i] > 0:
                 drums[i] -= 1
         ret, frame = cap.read()
-        frame = cv2.resize(frame, (0,0), fx = 1, fy = 1)
+        frame = cv2.resize(frame, (0,0), fx = 2, fy = 2)
         #print(len(frame), len(frame[0])) #1440, 2560, 720, 1280
         frame = cv2.flip(frame, +1)
         frameHSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -108,12 +117,11 @@ def main():
         colorMask = colorMask0 + colorMask1
         
         res = cv2.bitwise_and(frame, frame, mask = colorMask)
-        cv2.imshow("Before",res)
         gray = cv2.cvtColor(res, cv2.COLOR_BGR2GRAY)
-        cv2.imshow("After", res)
-        thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+        thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 115,1)
         contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(frame, contours, -1, (255,0,0), 3)
+        
+        drawContour(frame, thresh)
         
         for i in range(len(drums)):
             timer = drums[i]
