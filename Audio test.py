@@ -27,8 +27,10 @@ def play(file):
 
     p.terminate()
 
+
 def playDrumRecord():
-    while True:
+    run=True
+    while run==True:
         drum=input("What drum?-->")
         if drum=='1':
             #kick
@@ -58,6 +60,61 @@ def playDrumRecord():
             #china cymbal
             play("Other/chinese.wav")
         else:
-            return
+            run=False
+    return run
 
 playDrumRecord()
+'''
+#create commands list
+a=[]
+for i in range(1, 10):
+    a.append(str(i))
+
+def createDrumRecord():
+    #create drums record with human input
+    drumsList=[]
+    while True:
+        drum=input("What drum do you want to play?-->")
+        if drum=='s' or drum=='S':
+            break
+        elif drum in a:
+            drumsList.append(drum)
+    return drumsList
+
+def playDrumRecord(lst):
+    for i in lst:
+        if i=='1':
+            #kick
+            play("Other/kick.wav")
+        elif i=='2':
+            #floor tom
+            play("Other/tom.wav")
+        elif i=='3':
+            #snare drum
+            play("Other/snare.wav")
+        elif i=='4':
+            #hanging toms
+            play("Other/rack tom.wav")
+        elif i=='5':
+            #hi-hat
+            play("Other/closed hat.wav")
+        elif i=='6':
+            #crash cymbal
+            play("Other/crash.wav")
+        elif i=='7':
+            #ride cymbal
+            play("Other/ride.wav")
+        elif i=='8':
+            #splash cymbal
+            play("Other/splash.wav")
+        elif i=='9':
+            #china cymbal
+            play("Other/chinese.wav")
+
+def playDrums():
+    drumsList=createDrumRecord()
+    playDrumRecord(drumsList)
+    return
+
+playDrums()
+'''
