@@ -19,7 +19,8 @@ As of completion, 5 green circles will act as hit areas for 5 different percussi
 
 ## Usage
 
-(1) Type the following command into terminal to install dependencies: ```
+(1) Type the following command into terminal to install dependencies: 
+```
 pip install -r requirements.txt
 ```
 (2) Install Open CV (Tutorial for MacOS: https://www.learnopencv.com/install-opencv3-on-macos/)
